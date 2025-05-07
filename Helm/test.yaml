@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-pod
+spec:
+  containers:
+  - name: ubuntu-container
+    image: ubuntu
+    command: ["/bin/sh", "-c", "apt-get update && apt-get install -y iputils-ping && ping mysql.dev.svc.cluster.local"]
+

@@ -1,0 +1,28 @@
+# templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.name }}
+    spec:
+      containers:
+      - image: {{ .Values.deployment.image }}
+        name: {{ .Values.deployment.name }}
+        env:
+          {{- range .Values.mysql }}
+          - name: {{ .name }}
+            value: {{ .value }}
+          {{- end }}
+        ports:
+        - containerPort: {{ .Values.deployment.containerPort }}
+          name: {{ .Values.deployment.name }}
+

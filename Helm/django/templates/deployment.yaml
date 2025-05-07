@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+spec:
+  selector:
+    matchLabels:
+      app: django
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: django
+          image: "{{ .Values.image.repository }}"
+          ports:
+          - containerPort: 8000
+            name: http
+            protocol: TCP
+          envFrom:
+            - secretRef:
+                name: db-credentials
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                - "/bin/sh"
+                - "-c"
+                - |
+                  python3 Resume-Site-Django/manage.py migrate resumesite zero
+                  python3 Resume-Site-Django/manage.py makemigrations resumesite
+                  python3 Resume-Site-Django/manage.py migrate resumesite
+                  python3 Resume-Site-Django/manage.py migrate
+

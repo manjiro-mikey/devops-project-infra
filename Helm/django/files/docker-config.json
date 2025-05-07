@@ -1,0 +1,10 @@
+{
+  "auths": {
+    "{{ .Values.secret.dockerServer }}": {
+      "username": "{{ .Values.secret.dockerUsername }}",
+      "password": "{{ .Values.secret.dockerPassword }}",
+      "email": "{{ .Values.secret.dockerEmail }}"
+    }
+  }
+}
+

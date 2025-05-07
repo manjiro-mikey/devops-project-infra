@@ -1,0 +1,69 @@
+# values.yaml
+replicaCount: 2
+
+image:
+  # repository: registry.gitlab.com/tgpham26/pnhappproject
+  # pullPolicy: Always
+  # tag: v18.0
+  repository: docker.io/dungxtvl/devops-project:18
+
+imagePullSecrets:
+  - name: registry-pnh-secret
+
+db:
+  host: 10.0.4.229
+  user: root
+  pass: "1"
+  
+database:
+  db_host: "mysql.dev.svc.cluster.local"
+  #db_host: "10.244.1.40"
+  db_user: "root"
+  db_pass: "a123456"
+  db_port: "3306"
+  db_database: "test"
+
+service:
+  name: django
+  type: NodePort
+  port: 8000
+  nodePort: 31000
+
+deployment:
+  name: django
+
+# Deploy token
+# values.yaml
+#secret:
+  #  name: registry-pnh-secret-trourest
+    #  namespace: dev
+    #  dockerServer: registry.gitlab.com
+    #  dockerUsername: gitlab+deploy-token-3538325
+    #  dockerPassword: G7yWrz4jHD4oTfy9zSRc
+    #  dockerEmail: tgpham26@gmail.com
+imagePullSecrets: [{"name": "registry-pnh-secret"}]
+
+imageCredentials:
+  registry: registry.gitlab.com/tgpham26/pnhappproject
+  username: gitlab+deploy-token-3538325
+  password: G7yWrz4jHD4oTfy9zSRc 
+  email: tgpham26@gmail.com
+
+namespace: dev
+
+# Ingress
+# values.yaml
+ingress:
+  secname: secretdns
+  enabled: true
+  name: python-ingress
+  namespace: dev
+  className: nginx
+  host: www.trourest186.online
+  path: /
+  serviceName: django
+  servicePort: 8000
+  tls:
+    - secretName: secretdns
+      hosts:
+        - www.trourest186.online
