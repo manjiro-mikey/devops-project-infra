@@ -1,0 +1,17 @@
+[master]
+13.229.93.13
+
+[worker1]
+47.129.176.12 # temporary for nginx
+
+[jenkins]
+13.215.224.12
+
+[master:vars]
+ansible_ssh_private_key_file=./storage/ec2-key.pem
+
+[jenkins:vars]
+ansible_ssh_private_key_file=./storage/ec2-key.pem
+
+[jenkins:vars]
+ansible_ssh_private_key_file=./storage/ec2-key.pem

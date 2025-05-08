@@ -1,0 +1,38 @@
+---
+- hosts: master
+  gather_facts: false
+  become: true
+  remote_user: ubuntu
+
+  vars:
+    project_path: /home/ubuntu/Devops-Project/Helm/
+
+  vars_files:
+    - ./vars/create-time-private-ip.yml
+
+  tasks:
+    - ping:
+
+    - name: Remove old package
+      ansible.builtin.shell:
+        cmd: rm -f mysql-0.1.0.tgz
+        chdir: "{{ project_path }}"
+
+    - name: Remove helm installed
+      ansible.builtin.shell:
+        cmd: helm uninstall mysql -n dev || true
+        chdir: "{{ project_path }}"
+
+    - name: Package helm for mysql server
+      ansible.builtin.shell:
+        cmd: helm package mysql/
+        chdir: "{{ project_path }}"
+
+    - name: Using helm for installing mysql server
+      ansible.builtin.shell:
+        cmd: "helm upgrade mysql mysql-0.1.0.tgz -n dev"
+        chdir: "{{ project_path }}"
+
+    - name: Pause for 30 seconds
+      ansible.builtin.pause:
+        seconds: 30

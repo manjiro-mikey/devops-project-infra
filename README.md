@@ -2,7 +2,7 @@
 This project establishes a comprehensive DevOps workflow, encompassing system building, configuration, development, management, and seamless continuous integration with real-world applications
 
 ## Architecture for my project
-![image](https://github.com/Trourest186/Devops-Project/assets/74035725/c2e59724-41d0-4e5c-950f-359bdab66c85)
+![image](https://gitlab.com/dung.lv1/devops-project-app/-/raw/master/Resume-Site-Django/assets/architecture.png)
 
 # 🛠️ Features
 - Using IaC (Terrafom) for preparating AWS cloud architecture
@@ -21,13 +21,12 @@ This project establishes a comprehensive DevOps workflow, encompassing system bu
   terraform apply --auto-approve
   ```
 - With ansible folder, run yaml files for configuration:
-  [instructions can be found in the ansible directory](https://github.com/Trourest186/Devops-Project/tree/master/Ansible)
+  [instructions can be found in the ansible directory](https://gitlab.com/dung.lv1/devops-project-infra/tree/master/Ansible)`
 
 - The image packaging process or helm chart for kubernetes I have written in the respective folders, and will be used in CI/CD
   
-- Preparation two repositories (gitlab), install same as me or different:
-  - https://gitlab.com/tgpham26/cd-devops.git for continuous delivery, and continuous deployment
-  - https://gitlab.com/tgpham26/ci-devops.git for continuous integration
+- The repository contains resource app and Jenkinsfile pipeline:
+  - https://gitlab.com/dung.lv1/devops-project-app
     
 - Configuration webhook, jenkins then start to demo
 

@@ -1,0 +1,81 @@
+---
+- hosts: master
+  gather_facts: false
+  become: true
+  remote_user: ubuntu
+
+  vars_files:
+    - ./vars/create-time-private-ip.yml
+
+  tasks:
+    - ping:
+
+    - name: Update repositories cache and install "dos2unix" and "expect" packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - dos2unix
+        - expect
+        - # Add any other necessary packages
+
+    - name: Change IP of master for configuration file master.sh
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/master.sh
+        regexp: 10.0.1.214 master
+        line: '{{master}} master'
+
+    - name: Change IP of worker for configuration file master.sh
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/master.sh
+        regexp: 10.0.2.58 worker1
+        line: '{{worker1}} worker1'
+
+    - name: Change IP
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/master.sh
+        regexp:   --apiserver-advertise-address=10.0.1.214 --ignore-preflight-errors=all
+        line: '  --apiserver-advertise-address={{master}} --ignore-preflight-errors=all'
+
+    - name: Change format for master.sh
+      ansible.builtin.shell:
+        cmd: dos2unix master.sh
+
+    # - name: Copy execute file for master host
+    #   ansible.builtin.copy:
+    #     src: /home/ubuntu/k8s/Helm
+    #     dest: /home/ubuntu/Devops-Project/
+    #     owner: ubuntu
+    #     group: ubuntu
+    #     mode: '777'
+    # - name: Copy execute file for master host
+    #   ansible.builtin.copy:
+    #     src: /home/ubuntu/k8s/Application
+    #     dest: /home/ubuntu/Devops-Project/
+    #     owner: ubuntu
+    #     group: ubuntu
+    #     mode: '777'
+
+    # - name: Copy execute file for master host
+    #   ansible.builtin.copy:
+    #     src: ./storage/expect_script_master.exp
+    #     dest: /home/ubuntu
+    #     owner: ubuntu
+    #     group: ubuntu
+    #     mode: '777'
+
+    # - name: Permission for master file
+    #   ansible.builtin.shell:
+    #     cmd: chmod +x ./master.sh
+
+    # - name: Execute expect script
+    #   ansible.builtin.shell:
+    #     cmd: expect /home/ubuntu/expect_script_master.exp
+    #   register: expect_script_output
+
+    # - name: Save output to logs file
+    #   local_action:
+    #     module: copy
+    #     content: "{{ expect_script_output.stdout }}\n"
+    #     dest: "./logs/master_file.log"
+

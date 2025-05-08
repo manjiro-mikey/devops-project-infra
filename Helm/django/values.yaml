@@ -1,15 +1,41 @@
 # values.yaml
+namespace: dev
+
+#Deployment
+deployment:
+  name: django
+
 replicaCount: 2
+
+imagePullSecrets:
+  - name: registry-pnh-secret
 
 image:
   # repository: registry.gitlab.com/tgpham26/pnhappproject
   # pullPolicy: Always
   # tag: v18.0
-  repository: docker.io/dungxtvl/devops-project:18
+  repository: docker.io/dungxtvl/devops-project:3
 
-imagePullSecrets:
-  - name: registry-pnh-secret
+# Ingress
+ingress:
+  secname: secretdns
+  enabled: true
+  name: python-ingress
+  namespace: dev
+  className: nginx
+  host: www.devopszero.id.vn
+  path: /
+  serviceName: django
+  servicePort: 8000
+  # tls:
+  #   - secretName: secretdns
+  #     hosts:
+  #       - www.devopszero.id.vn
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    kubernetes.io/ingress.class: "nginx"
 
+#Secret database
 db:
   host: 10.0.4.229
   user: root
@@ -25,12 +51,9 @@ database:
 
 service:
   name: django
-  type: NodePort
+  type: ClusterIP
   port: 8000
   nodePort: 31000
-
-deployment:
-  name: django
 
 # Deploy token
 # values.yaml
@@ -41,29 +64,10 @@ deployment:
     #  dockerUsername: gitlab+deploy-token-3538325
     #  dockerPassword: G7yWrz4jHD4oTfy9zSRc
     #  dockerEmail: tgpham26@gmail.com
-imagePullSecrets: [{"name": "registry-pnh-secret"}]
+# imagePullSecrets: [{"name": "registry-pnh-secret"}]
 
 imageCredentials:
   registry: registry.gitlab.com/tgpham26/pnhappproject
   username: gitlab+deploy-token-3538325
   password: G7yWrz4jHD4oTfy9zSRc 
   email: tgpham26@gmail.com
-
-namespace: dev
-
-# Ingress
-# values.yaml
-ingress:
-  secname: secretdns
-  enabled: true
-  name: python-ingress
-  namespace: dev
-  className: nginx
-  host: www.trourest186.online
-  path: /
-  serviceName: django
-  servicePort: 8000
-  tls:
-    - secretName: secretdns
-      hosts:
-        - www.trourest186.online

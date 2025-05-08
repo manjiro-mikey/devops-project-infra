@@ -1,0 +1,68 @@
+
+# Using for Worker
+---
+- hosts: worker1
+  gather_facts: false
+  become: true
+  remote_user: ubuntu
+
+  vars_files:
+    - ./vars/create-time-private-ip.yml
+
+  tasks:
+    - ping:
+
+    - name: Update repositories cache and install "dos2unix" and "expect" packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - dos2unix
+        - expect
+        - nfs-common # For storaging NFS 
+        - # Add any other necessary packages
+    - name: Change IP of master for configuration file worker.sh
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/worker.sh
+        regexp: 10.0.1.214 master
+        line: '{{master}} master'
+
+    - name: Change IP of worker for configuration file worker.sh
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/worker.sh
+        regexp: 10.0.2.58 worker1
+        line: '{{worker1}} worker1'
+
+    - name: Change format for worker.sh
+      ansible.builtin.shell:
+        cmd: dos2unix worker.sh
+
+    - name: Copy execute file for worker host
+      ansible.builtin.copy:
+        src: ./storage/expect_script_worker.exp
+        dest: /home/ubuntu
+        owner: ubuntu
+        group: ubuntu
+        mode: '0777'
+    
+    - name: Permission for worker file
+      ansible.builtin.shell:
+        cmd: chmod +x ./worker.sh
+
+    # - name: Execute expect script
+    #   ansible.builtin.shell:
+    #     cmd: expect /home/ubuntu/expect_script_worker.exp
+
+    # - name: Capture the output of the command
+    #   ansible.builtin.command:  grep -A 1 'kubeadm join' ./logs/master_file.log
+    #   delegate_to: localhost
+    #   register: kubeadm_output
+
+    # - name: Print the captured output
+    #   ansible.builtin.debug:
+    #     var: kubeadm_output.stdout_lines
+
+    # # Now you can use the captured output in another task
+    # - name: Use the captured output in a subsequent task
+    #   ansible.builtin.shell: 
+    #     cmd: echo '{{ kubeadm_output.stdout }}' | tr -d '\r\n\t' | sudo bash -

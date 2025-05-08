@@ -1,0 +1,37 @@
+---
+- hosts: jenkins
+  gather_facts: false
+  become: true
+  remote_user: ubuntu
+
+  tasks:
+    - ping:
+
+    # - name: Update repositories cache and install nginx packages
+    #   ansible.builtin.apt:
+    #     name: "{{ item }}"
+    #     state: present
+    #   loop:
+    #     - nginx
+    #     - # Add any other necessary packages
+    
+    - name: Copy nginx.conf file
+      ansible.builtin.copy:
+        dest: /etc/nginx/conf.d/jenkins.conf
+        src: ./templates/nginx-jenkins.conf
+      become: true
+
+    - name: Copy nginx.conf file
+      ansible.builtin.copy:
+        dest: /etc/nginx/conf.d/app-django.conf
+        src: ./templates/app-django.conf
+      become: true
+    
+    # - name: Check and reload NGINX server
+    #   ansible.builtin.shell: |
+    #     sudo nginx -t
+    #     sudo nginx -s reload
+
+    #     exit 0 
+    #   args:
+    #     executable: /usr/bin/bash
