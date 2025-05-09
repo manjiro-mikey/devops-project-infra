@@ -2,7 +2,7 @@
 This project establishes a comprehensive DevOps workflow, encompassing system building, configuration, development, management, and seamless continuous integration with real-world applications
 
 ## Architecture for my project
-![image](https://gitlab.com/dung.lv1/devops-project-app/-/raw/master/Resume-Site-Django/assets/architecture.png)
+![image](https://github.com/manjiro-mikey/devops-project-app/blob/master/Resume-Site-Django/assets/architecture%20.png?raw=true)
 
 # 🛠️ Features
 - Using IaC (Terrafom) for preparating AWS cloud architecture
