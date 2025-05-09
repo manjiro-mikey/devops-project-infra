@@ -21,12 +21,12 @@ This project establishes a comprehensive DevOps workflow, encompassing system bu
   terraform apply --auto-approve
   ```
 - With ansible folder, run yaml files for configuration:
-  [instructions can be found in the ansible directory](https://gitlab.com/dung.lv1/devops-project-infra/tree/master/Ansible)`
+  [instructions can be found in the ansible directory](https://github.com/manjiro-mikey/devops-project-infra/tree/master/Ansible)`
 
 - The image packaging process or helm chart for kubernetes I have written in the respective folders, and will be used in CI/CD
   
 - The repository contains resource app and Jenkinsfile pipeline:
-  - https://gitlab.com/dung.lv1/devops-project-app
+  - https://github.com/manjiro-mikey/devops-project-app
     
 - Configuration webhook, jenkins then start to demo
 
