@@ -1,8 +1,12 @@
 # References: https://stackoverflow.com/questions/76049290/error-accesscontrollistnotsupported-when-trying-to-create-a-bucket-acl-in-aws
 
+resource "random_id" "bucket_suffix" {
+  byte_length = 4
+}
+
 resource "aws_s3_bucket" "state-bucket-manjiro" {
   # Name bucket must unique
-  bucket = "state-bucket-manjiro"
+  bucket = "state-bucket-manjiro-${random_id.bucket_suffix.hex}"
 
   lifecycle {
     prevent_destroy = false

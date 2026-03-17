@@ -34,8 +34,9 @@ variable "instance_type" {
 }
 
 variable "ami_type" {
-  default = "ami-01938df366ac2d954"
-  type    = string
+  description = "Optional AMI ID override. If null, auto-select Ubuntu 22.04 LTS for the current region."
+  type        = string
+  default     = null
 }
 
 # variable "create_key_pair" {}

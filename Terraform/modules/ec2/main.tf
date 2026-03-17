@@ -1,9 +1,35 @@
 # Create EC2
 # Cluster
+# Auto-pick Ubuntu 22.04 LTS AMI for current region (unless overridden via var.ami_type).
+data "aws_ami" "ubuntu_2204" {
+  most_recent = true
+  owners      = ["099720109477"] # Canonical
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+# Use override AMI if provided, otherwise the discovered Ubuntu AMI.
+locals {
+  selected_ami = coalesce(var.ami_type, data.aws_ami.ubuntu_2204.id)
+}
+
 # =============================================== Master ===============================================
 resource "aws_instance" "master" {
   #   source   = "../vpc"
-  ami           = var.ami_type
+  ami           = local.selected_ami
   instance_type = var.instance_type
   subnet_id     = var.sub_id2
   # key_name                    = aws_key_pair.TF_key.key_name
@@ -68,7 +94,7 @@ resource "null_resource" "sync_master" {
 # =============================================== Worker ===============================================
 resource "aws_instance" "worker" {
   #   source   = "../vpc"
-  ami           = var.ami_type
+  ami           = local.selected_ami
   instance_type = var.instance_type
   subnet_id     = var.sub_id3
   # key_name                    = aws_key_pair.TF_key.key_name
@@ -127,7 +153,7 @@ resource "null_resource" "sync_worker" {
 
 resource "aws_instance" "jenkins" {
   #   source   = "../vpc"
-  ami           = var.ami_type
+  ami           = local.selected_ami
   instance_type = var.instance_type
   subnet_id     = var.sub_id3
   # key_name                    = aws_key_pair.TF_key.key_name
