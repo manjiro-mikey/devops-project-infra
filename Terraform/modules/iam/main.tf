@@ -18,7 +18,8 @@ module "iam_user" {
 }
 
 module "iam_group_with_policies" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-group-with-policies"
+  source  = "terraform-aws-modules/iam/aws//modules/iam-group-with-policies"
+  version = "5.55.0"
 
   name = "Admin-manjiro"
 

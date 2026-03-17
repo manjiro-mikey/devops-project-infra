@@ -1,4 +1,4 @@
-region        = "ap-southeast-1"
+region        = "us-east-1"
 project       = "manjiro"
 vpc_cidr      = "10.0.0.0/16"
 sbit          = 8
