@@ -34,6 +34,10 @@ variable "region" {}
 
 variable "instance_type" {}
 
-variable "ami_type" {}
+variable "ami_type" {
+  description = "Optional AMI ID override. If null, EC2 module auto-selects Ubuntu 22.04 LTS for the current region."
+  type        = string
+  default     = null
+}
 
 # variable "create_key_pair" {}
