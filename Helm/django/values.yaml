@@ -19,7 +19,7 @@ image:
 # Ingress
 ingress:
   secname: secretdns
-  enabled: true
+  enabled: false
   name: python-ingress
   namespace: dev
   className: nginx
@@ -51,7 +51,7 @@ database:
 
 service:
   name: django
-  type: ClusterIP
+  type: NodePort
   port: 8000
   nodePort: 31000
 

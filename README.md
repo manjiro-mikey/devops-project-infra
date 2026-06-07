@@ -14,6 +14,8 @@ This project establishes a comprehensive DevOps workflow, encompassing system bu
 
 # 📋 Usage
 1. Có thể dùng trực tiếp máy window hoặc tạo một server bastion trên aws và thực hiện cài aws cli, terraform, ansible sau đó clone source code về
+## Nếu bạn muốn cài nhanh có thể dùng script Executable_files/install_Ansible.sh sau đó cấu hình file key_credentials.sh và chạy lệnh Executable_files/install_Ansible.sh
+
 1.1 Cài package cơ bản
 sudo apt update -y
 sudo apt upgrade -y
@@ -52,11 +54,8 @@ terraform -version
   ```
 Chạy Terraform:
 cd Terraform
-clear file Output_files/ creation-time-private-ip.yml trong folder Teraform trước khi chạy lệnh
-echo -n > Output_files/creation-time-private-ip.yml
-# Hoặc
-cat /dev/null > Output_files/creation-time-private-ip.yml
-
+clear file Output_files/creation-time-private-ip.yml và state của terraform trong folder Teraform trước khi chạy lệnh
+bash Executable_files/clear.sh
 terraform init
 terraform plan
 terraform apply --auto-approve
@@ -105,8 +104,15 @@ example: sudo kubeadm join 10.0.1.117:6443 --token 6mt9t8.c3vsjsuumd0sclzn --dis
   
 - The repository contains resource app and Jenkinsfile pipeline:
   - https://github.com/manjiro-mikey/devops-project-app
-    
+
 - Configuration webhook, jenkins then start to demo
+Cài đặt app và dababase trên cụm k8s
+git clone <source_helm>
+cd Helm
+kubectl create namespace dev
+helm upgrade --install -n dev db-mysql mysql
+helm upgrade --install -n dev app-django django
+kubectl get all -n dev
 
 # 📝 Author
 Le Van Dung (Manjiro)
