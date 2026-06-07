@@ -1,2 +1,4 @@
 master: 10.0.1.135
 worker1: 10.0.2.138
+master_old: 10.0.1.214
+worker1_old: 10.0.2.58

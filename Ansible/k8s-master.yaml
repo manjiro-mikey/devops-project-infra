@@ -22,19 +22,19 @@
     - name: Change IP of master for configuration file master.sh
       ansible.builtin.lineinfile:
         path: /home/ubuntu/master.sh
-        regexp: 10.0.1.214 master
+        regexp: '{{master_old}} master'
         line: '{{master}} master'
 
     - name: Change IP of worker for configuration file master.sh
       ansible.builtin.lineinfile:
         path: /home/ubuntu/master.sh
-        regexp: 10.0.2.58 worker1
+        regexp: '{{worker1_old}} worker1'
         line: '{{worker1}} worker1'
 
     - name: Change IP
       ansible.builtin.lineinfile:
         path: /home/ubuntu/master.sh
-        regexp:   --apiserver-advertise-address=10.0.1.214 --ignore-preflight-errors=all
+        regexp:   --apiserver-advertise-address={{master_old}} --ignore-preflight-errors=all
         line: '  --apiserver-advertise-address={{master}} --ignore-preflight-errors=all'
 
     - name: Change format for master.sh

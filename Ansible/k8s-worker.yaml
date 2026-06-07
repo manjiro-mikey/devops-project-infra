@@ -24,13 +24,13 @@
     - name: Change IP of master for configuration file worker.sh
       ansible.builtin.lineinfile:
         path: /home/ubuntu/worker.sh
-        regexp: 10.0.1.214 master
+        regexp: '{{master_old}} master'
         line: '{{master}} master'
 
     - name: Change IP of worker for configuration file worker.sh
       ansible.builtin.lineinfile:
         path: /home/ubuntu/worker.sh
-        regexp: 10.0.2.58 worker1
+        regexp: '{{worker1_old}} worker1'
         line: '{{worker1}} worker1'
 
     - name: Change format for worker.sh
