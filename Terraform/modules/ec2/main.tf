@@ -83,12 +83,6 @@ resource "null_resource" "sync_master" {
     destination = "/home/${var.user_ec2[1]}/install_Master.sh"
   }
 
-  provisioner "local-exec" {
-    command     = "echo ${aws_instance.master.private_ip} >> creation-time-private-ip.yml"
-    working_dir = "Output_files/"
-    #on_failure = continue
-  }
-
 }
 
 # =============================================== Worker ===============================================
@@ -141,12 +135,6 @@ resource "null_resource" "sync_worker" {
   provisioner "file" {
     source      = "./Executable_files/worker.sh"
     destination = "/home/${var.user_ec2[1]}/worker.sh"
-  }
-
-  provisioner "local-exec" {
-    command     = "echo ${aws_instance.worker.private_ip} >> creation-time-private-ip.yml"
-    working_dir = "Output_files/"
-    #on_failure = continue
   }
 
 }
