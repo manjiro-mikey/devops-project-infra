@@ -14,7 +14,7 @@ image:
   # repository: registry.gitlab.com/tgpham26/pnhappproject
   # pullPolicy: Always
   # tag: v18.0
-  repository: docker.io/dungxtvl/devops-project:3
+  repository: docker.io/dungxtvl/devops-project:20
 
 # Ingress
 ingress:
