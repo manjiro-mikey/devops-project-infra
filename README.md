@@ -74,12 +74,13 @@ chmod 400 Ansible/storage/ec2-key.pem
 cd Ansible
 nano hosts #cập nhật ip public của master, worker, jenkins
 nano vars/create-time-private-ip.yml #Cập nhật ip private của master và worker vào file(có thể sửa đoạn terraform để cập nhật thay vì cập nhật thủ công)
-
 ```
 
+```
 ansible -i hosts all -m ping
 ansible-playbook -i hosts k8s-master.yaml
 ansible-playbook -i hosts k8s-worker.yaml
+```
 
 ```
 Nếu pong bị lỗi thì cần chạy lệnh
